@@ -1,23 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import InputFeild from "./components/inputFeild";
+import { Todo } from "./model";
+import TodoList from "./components/TodoList";
 
-//## react ts
-let name: string = "samurai";
-let age: number;
-let isStudent: boolean;
-//string of array
-let hobbies: string[];
-//can contain 1 number and 1 string
-let role: [number, number, string];
-role = [4, 5, "gg"];
+//Create Colin recact.fc , THERE ARE A BUNCH OF OTHER TYPES AS WELL
+//React.ReactNode
+//React.FC
+const App: React.FC = () => {
+    //give type string
+    //using union for accept multiple type
+    const [todo, setTodo] = useState<string>("");
+    //create an array of a type
+    const [todos, setTodos] = useState<Todo[]>([]);
 
-function App(): JSX.Element {
+    const handleAdd = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (todo) {
+            setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+            setTodo("");
+        }
+    };
+
+    console.log(todos);
+
     return (
         <div className="App">
-            <h3>Hello asdsadworlsdfsdfd push</h3>
-            <h3>{name}</h3>
+            <span className="heading">Taskify</span>
+            <InputFeild todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+            {/* {todos.map((test) => (
+                <li>{test.todo}</li>
+            ))} */}
+            <TodoList todos={todos} setTodos={setTodos} />
         </div>
     );
-}
+};
 
 export default App;
